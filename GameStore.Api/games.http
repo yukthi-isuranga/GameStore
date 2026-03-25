@@ -9,9 +9,9 @@ POST http://localhost:5222/games
 Content-Type: application/json
 
 {
-    "name" : "Super mario",
+    "name" : "Super mario....more than 50 charators....",
     "genre" : "Platformer",
-    "price" : 12.12,
+    "price" : 102.12,
     "releaseDate" : "2023-10-20"
 }
 
