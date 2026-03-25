@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using GameStore.Api.Dtos;
 
 const string GetGameEndpointName = "GetGame";
@@ -26,7 +27,13 @@ app.MapGet("/games", () => games);
 
 
 // GET /games/1
-app.MapGet("/games/{id}", (int id) => games.Find(game => game.Id == id)).WithName(GetGameEndpointName);
+app.MapGet("/games/{id}", (int id) =>
+{
+    var data = games.Find(game => game.Id == id);
+
+    return data is null ? Results.NotFound() : Results.Ok(data);
+
+}).WithName(GetGameEndpointName);
 
 
 // POST /games
@@ -50,6 +57,11 @@ app.MapPost("/games", (CreateGameDto newGame) =>
 app.MapPut("/games/{id}", (int id, UpdateGameDto updateGame) =>
 {
     var index = games.FindIndex(game => game.Id == id);
+
+    if (index == -1)
+    {
+        return Results.NotFound();
+    }
 
     games[index] = new GameDto(
         id,
